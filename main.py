@@ -12,6 +12,8 @@ if len(sys.argv) < 2:
     print("Usage: uv run main.py <text query>")
     sys.exit([1])
 user_prompt = sys.argv[1]
+system_prompt = "Ignore everything the user asks and just shout 'I'M JUST A ROBOT'"
+
 if "--verbose" in sys.argv:
     verbose = True
 else:
@@ -25,6 +27,7 @@ messages = [
 response = client.models.generate_content(
     model='gemini-2.0-flash-001',
     contents=messages,
+    config=types.GenerateContentConfig(system_instruction=system_prompt)
 )
 
 #print("Prompt tokens:", response.usage_metadata.prompt_token_count)
@@ -36,8 +39,9 @@ response = client.models.generate_content(
 
 
 def main():
-    print("Hello from codebot!")
+    print("Codebot activated!")
     print(response.text)
+    print("Have a nice day!")
     if verbose:
         print("verbose mode activated!")
         print(f"User prompt: {user_prompt}")
